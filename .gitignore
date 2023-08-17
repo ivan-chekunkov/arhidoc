@@ -1,3 +1,4 @@
 .vscode
 BD
 venv
+__pycache__
