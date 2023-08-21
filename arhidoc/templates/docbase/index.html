@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<a class="navbar" href="{% url 'docbase:main' %}">
+  На стартовую
+</a class="single-post"> 
+{% for char in text %}
+  {% if forloop.first %}
+    <p>Документики</p>
+  {% endif %}
+  <ul class="nav nav-pills nav-justified">
+    <li class="nav-item">  <a class="nav">{{ char.name }} </a> </li>
+    <li class="nav-item">  <a class="nav">{{ char.pub_create }} </a> </li>
+    <li class="nav-item">  <a class="nav">{{ char.number }} </a> </li>
+    <li class="nav-item">  <a class="nav">{{ char.category }} </a> </li>
+  </ul>
+  {% if forloop.last %}
+    <p>Конец цикла</p>
+  {% endif %}
+{% empty %}
+  <p>Если цикл пуст</p>
+{% endfor %}  
+{% endblock %} 
+
+

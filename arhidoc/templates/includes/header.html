@@ -1,0 +1,29 @@
+{% load static %}
+<header>
+    <nav class="navbar navbar-light" style="background-color: lightskyblue">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'docbase:main' %}">
+                <span style="color:red">ARHI</span>doc
+            </a>
+            <ul class="nav  nav-pills">
+                <li class="nav-item">
+                        Об авторе
+                </li>
+                <li class="nav-item">
+                        Технологии
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                        Новая запись
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="<!--  -->">Изменить пароль</a>
+                </li>
+                <li class="nav-item">
+                    Выйти
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+</header>
