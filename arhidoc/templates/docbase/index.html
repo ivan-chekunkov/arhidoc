@@ -6,15 +6,41 @@
 {% for char in text %}
   {% if forloop.first %}
     <p>Документики</p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">№</th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Дата</th>
+          <th scope="col">Номер</th>
+          <th scope="col">Категория</th>
+          <th scope="col">Путь к файлу</th>
+        </tr>
+      </thead>
+      <tbody>
   {% endif %}
-  <ul class="nav nav-pills nav-justified">
-    <li class="nav-item">  <a class="nav">{{ char.name }} </a> </li>
-    <li class="nav-item">  <a class="nav">{{ char.pub_create }} </a> </li>
-    <li class="nav-item">  <a class="nav">{{ char.number }} </a> </li>
-    <li class="nav-item">  <a class="nav">{{ char.category }} </a> </li>
-  </ul>
+  {% if forloop.counter|divisibleby:"2" %}
+  <tr class="table-light">
+    <th scope="row">{{ forloop.counter }}</th>
+    <td><b>{{ char.name }}</b></td>
+    <td>{{ char.data_doc }}</td>
+    <td>{{ char.number }}</td>
+    <td>{{ char.category }}</td>
+    <td>{{ char.file_path }}</td>
+  </tr>
+  {% else %}
+  <tr class="table-primary">
+    <th scope="row">{{ forloop.counter }}</th>
+    <td><b>{{ char.name }}</b></td>
+    <td>{{ char.data_doc }}</td>
+    <td>{{ char.number }}</td>
+    <td>{{ char.category }}</td>
+    <td>{{ char.file_path }}</td>
+  </tr>
+  {% endif %}
   {% if forloop.last %}
-    <p>Конец цикла</p>
+  </tbody>
+  </table>
   {% endif %}
 {% empty %}
   <p>Если цикл пуст</p>

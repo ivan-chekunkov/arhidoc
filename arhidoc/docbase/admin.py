@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Doc
+from .models import Category, Doc, Document
 
 
 class DocAdmin(admin.ModelAdmin):
@@ -28,5 +28,14 @@ class CategoryAdmin(admin.ModelAdmin):
     empty_value_display = "-пусто-"
 
 
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = (
+        "description",
+        "document",
+        "uploaded_at",
+    )
+
+
+admin.site.register(Document, DocumentAdmin)
 admin.site.register(Doc, DocAdmin)
 admin.site.register(Category, CategoryAdmin)
