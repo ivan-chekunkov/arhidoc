@@ -5,7 +5,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-c0)uhgpfs49p-#g$kf%_^2z7$pn)2%jmp!-#%p8ynhsp(jlhox"
 DEBUG = True
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "docbase.apps.DocbaseConfig",
     "django.contrib.admin",

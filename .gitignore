@@ -3,3 +3,8 @@ BD
 venv
 __pycache__
 db.sqlite3
+DOCS_FOR_DOWNLOAD
+utilites
+D12.json
+D13.json
+arhidoc_download_data_to base.py

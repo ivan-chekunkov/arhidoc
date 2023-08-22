@@ -27,14 +27,18 @@ class Category(models.Model):
 
 
 class Doc(models.Model):
+    pub_create = models.DateTimeField(
+        verbose_name="Дата создания документа",
+        auto_now_add=True,
+    )
+    data_doc = models.DateTimeField(
+        verbose_name="Дата документа",
+        null=True,
+    )
     name = models.CharField(
         max_length=100,
         verbose_name="Наименование документа",
         help_text="Введите наименование документа",
-    )
-    pub_create = models.DateTimeField(
-        verbose_name="Дата создания документа",
-        auto_now_add=True,
     )
     number = models.CharField(
         max_length=10,
@@ -46,6 +50,12 @@ class Doc(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Категория",
         related_name="doc",
+    )
+    file_path = models.CharField(
+        max_length=200,
+        verbose_name="Путь до файла документа",
+        help_text="Укажите путь до файла документа",
+        null=True,
     )
 
     class Meta:
