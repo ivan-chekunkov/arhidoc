@@ -9,6 +9,26 @@ def _iterdir(path: Path) -> list[Path]:
     return [x for x in path.iterdir() if x.is_file()]
 
 
+def read_csv(path_file: Path) -> dict[int, tuple[str, str, str]]:
+    """Создание словаря документов с их параметрами на основе выгрузки из базы"""
+    with open(path_file, 'r', encoding='cp1251') as file:
+        lines = [line.rstrip('\n').split('***') for line in file.readlines()]
+    doc_info: dict[int, tuple[str, str, str]] = {}
+    for line in lines:
+        if len(line) != 4:
+            print('Error {}'.format(line))
+            continue
+        data: str = line[0]
+        number: str = line[1].replace('"', '')
+        name: str = line[2].replace('"', '')
+        index: int = int(line[3])
+        if doc_info.get(index, False):
+            print('Index double {}'.format(line))
+            continue
+        doc_info[index] = (data, number, name)
+    return doc_info
+
+
 def validate_docx(path_file: Path, prefix: str, level: int = 1) -> None:
     """Валидация содержимого документов их данным согласно выгрузке из"""
     pass
