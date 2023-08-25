@@ -29,6 +29,16 @@ def read_csv(path_file: Path) -> dict[int, tuple[str, str, str]]:
     return doc_info
 
 
+def save_json(path_file: Path, data):
+    # Нужно ниже сделать аннотации, докстринг и рефокторинг
+    import json
+    path = path_file.name.split('.')[0]
+    with open('{}.json'.format(path), 'w', encoding='utf-8') as outfile:
+        json.dump(obj=data, fp=outfile,
+                  ensure_ascii=False, indent=4,
+                  sort_keys=True, separators=(',', ': '))
+
+
 def validate_docx(path_file: Path, prefix: str, level: int = 1) -> None:
     """Валидация содержимого документов их данным согласно выгрузке из"""
     pass
