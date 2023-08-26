@@ -38,6 +38,22 @@ def save_json(path_file: Path, data):
                   ensure_ascii=False, indent=4,
                   sort_keys=True, separators=(',', ': '))
 
+def rename_docx(in_path: Path, out_path: Path, prefix: str, params) -> int:
+    """Переименование документа согласно шаблону на основе выгрузки из базы"""
+    number: str
+    data: str
+    data, number, _ = params
+    file_name: str = in_path.name.split('.')[0].lstrip('t')
+    file_name = str(100000 + int(file_name))[:6]
+    number = number.replace('\\', ' ').replace('/', '')
+    postfix: str = '{}={}={}={}.docx'.format(prefix, file_name, data, number)
+    new_file: Path = Path(out_path).joinpath(postfix)
+    try:
+        in_path.replace(new_file)
+        return 1
+    except Exception as error:
+        print(error)
+        return 0
 
 def validate_docx(path_file: Path, prefix: str, level: int = 1) -> None:
     """Валидация содержимого документов их данным согласно выгрузке из"""
