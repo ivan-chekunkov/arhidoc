@@ -3,6 +3,18 @@ from pathlib import Path
 import docx
 from doc2docx import convert as doc2docx_convert
 
+def _convert_doc_to_docx(in_path: Path, out_path: Path) -> None:
+    """Конвертация из doc в docx при помощи библиотеки doc2docx"""
+    try:
+        if in_path.suffix.upper() != '.DOC':
+            print('Не корректное расширение файла {}'.format(in_path.suffix))
+            return
+        file_name: str = in_path.name.split('.')[0]
+        new_file: Path = Path(out_path).joinpath(file_name + '.docx')
+        print('Обрабатываю файл {}!'.format(file_name))
+        doc2docx_convert(input_path=in_path, output_path=new_file)
+    except Exception as error:
+        print(error)
 
 def _iterdir(path: Path) -> list[Path]:
     """Получение списка файлов"""
