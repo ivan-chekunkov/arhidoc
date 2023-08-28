@@ -3,6 +3,7 @@ from pathlib import Path
 import docx
 from doc2docx import convert as doc2docx_convert
 
+
 def _convert_doc_to_docx(in_path: Path, out_path: Path) -> None:
     """Конвертация из doc в docx при помощи библиотеки doc2docx"""
     try:
@@ -16,10 +17,21 @@ def _convert_doc_to_docx(in_path: Path, out_path: Path) -> None:
     except Exception as error:
         print(error)
 
+
 def _iterdir(path: Path) -> list[Path]:
     """Получение списка файлов"""
     return [x for x in path.iterdir() if x.is_file()]
 
+
+def convert_doc_to_docx() -> None:
+    """Конвертация файлов из doc в docx"""
+    files = _iterdir(Path('input'))
+    index: int = 0
+    len_files = len(files)
+    for path_file in files:
+        index += 1
+        print('Обрабатываю {} из {}!'.format(index, len_files))
+        _convert_doc_to_docx(path_file, Path('output'))
 
 def read_csv(path_file: Path) -> dict[int, tuple[str, str, str]]:
     """Создание словаря документов с их параметрами на основе выгрузки из базы"""
