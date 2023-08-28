@@ -4,7 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 
-from .models import Doc
+from .models import Doc, Category
 from .forms import DocumentForm
 
 
@@ -15,6 +15,12 @@ def index(request):
     context = {"title": title, "text": docs}
     return render(request, template, context)
 
+def create_docs(request):
+    template = "docbase/category.html"
+    title = "Категории"
+    category = Category.objects.all()
+    context = {"title": title, "text": category}
+    return render(request, template, context)
 
 def model_form_upload(request):
     if request.method == 'POST':
