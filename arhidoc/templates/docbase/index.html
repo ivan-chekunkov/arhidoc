@@ -1,39 +1,33 @@
-{% extends 'base.html' %}
-{% block content %}
-<a class="navbar" href="{% url 'docbase:main' %}">
-  На стартовую
-</a class="single-post"> 
-{% for char in text %}
-  {% if forloop.first %}
-    <p>Документики</p>
-    <table class="table table-sm table-striped table-hover table-bordered border-primary">
-      <thead>
-        <tr>
-          <th scope="col">№</th>
-          <th scope="col">Наименование</th>
-          <th scope="col">Дата</th>
-          <th scope="col">Номер</th>
-          <th scope="col">Категория</th>
-          <th scope="col">Путь к файлу</th>
-        </tr>
-      </thead>
-      <tbody>
-  {% endif %}
-  <tr>
-    <th scope="row">{{ forloop.counter }}</th>
-    <td><b>{{ char.name }}</b></td>
-    <td style="white-space:nowrap;">{{ char.data_doc|date:'Y-m-d' }}</td>
-    <td>{{ char.number }}</td>
-    <td>{{ char.category }}</td>
-    <td>{{ char.file_path }}</td>
-  </tr>
-  {% if forloop.last %}
+{% extends 'base.html' %} {% block content %}
+<a class="navbar" href="{% url 'docbase:main' %}"> На стартовую </a>
+{% for char in text %} {% if forloop.first %}
+<p>Документики</p>
+<table
+  class="table table-sm table-striped table-hover table-bordered border-primary"
+>
+  <thead>
+    <tr>
+      <th scope="col">№</th>
+      <th scope="col">Наименование</th>
+      <th scope="col">Дата</th>
+      <th scope="col">Номер</th>
+      <th scope="col">Категория</th>
+      <th scope="col">Путь к файлу</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% endif %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td><b>{{ char.name }}</b></td>
+      <td style="white-space: nowrap">{{ char.data_doc|date:'Y-m-d' }}</td>
+      <td>{{ char.number }}</td>
+      <td>{{ char.category }}</td>
+      <td>{{ char.file_path }}</td>
+    </tr>
+    {% if forloop.last %}
   </tbody>
-  </table>
-  {% endif %}
-{% empty %}
-  <p>Если цикл пуст</p>
-{% endfor %}  
-{% endblock %} 
-
-
+</table>
+{% endif %} {% empty %}
+<p>Если цикл пуст</p>
+{% endfor %} {% endblock %}
