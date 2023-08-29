@@ -1,5 +1,5 @@
-{% extends 'base.html' %} {% block content %} {% for char in text %} {% if forloop.first %}
-<p>Документики</p>
+{% extends 'base.html' %} {% block content %} {% for char in page_obj %} {% if forloop.first %}
+<p style="padding-top: 10px; font-size: 35px">Категории</p>
 <table class="table table-sm table-striped table-hover table-bordered border-primary">
   <thead>
     <tr>

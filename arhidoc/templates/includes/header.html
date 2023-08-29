@@ -1,9 +1,21 @@
 <header>
-  <nav class="navbar navbar-light" style="background-color: #a370f7">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'docbase:main' %}">ARHIdoc v0.5</a>
-      <ul class="nav nav-pills">
-        <a href="{% url 'docbase:category' %}">Категории</a>
+  <nav class="navbar navbar-light fixed-top" style="background-color: #a370f7">
+    <div class="container-fluid">
+      <ul class="nav">
+        <li class="nav nav-item" style="padding-right: 6px">
+          <a class="btn btn-dark" href="{% url 'docbase:main' %}" role="button">ARHIdoc v0.6</a>
+        </li>
+        <li class="nav nav-item" style="padding-right: 6px">
+          <a class="btn btn-outline-dark" href="{% url 'docbase:main' %}" role="button">Документы</a>
+        </li>
+        <li class="nav nav-item" style="padding-right: 6px">
+          <a class="btn btn-outline-dark" href="{% url 'docbase:category' %}" role="button">Категории</a>
+        </li>
+        <li class="nav nav-item" style="padding-right: 6px">
+          <a class="btn btn-outline-dark" href="{% url 'docbase:model_form_upload' %}" role="button"
+            >Загрузить документ</a
+          >
+        </li>
       </ul>
     </div>
   </nav>

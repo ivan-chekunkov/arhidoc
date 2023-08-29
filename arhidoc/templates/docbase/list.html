@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %} {% for char in page_obj %} {% if forloop.first %}
-<p>Документики</p>
+<p style="padding-top: 10px; font-size: 35px">Документы</p>
 <table class="table table-sm table-striped table-hover table-bordered border-primary">
   <thead>
     <tr>
@@ -19,7 +19,7 @@
       <td style="white-space: nowrap">{{ char.data_doc|date:'Y-m-d' }}</td>
       <td>{{ char.number }}</td>
       <td>{{ char.category }}</td>
-      <td>{{ char.file_path }}</td>
+      <td>{{ char.file_path|slice:":25" }}...</td>
     </tr>
     {% if forloop.last %}
   </tbody>

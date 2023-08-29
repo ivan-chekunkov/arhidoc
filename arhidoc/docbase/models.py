@@ -68,6 +68,16 @@ class Doc(models.Model):
 
 
 class Document(models.Model):
-    description = models.CharField(max_length=255, blank=True)
-    document = models.FileField(upload_to='documents/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
+    description = models.CharField(
+        max_length=255, 
+        blank=True, 
+        verbose_name="Описание документа",
+        )
+    document = models.FileField(
+        upload_to='documents/', 
+        verbose_name="Путь до документа",
+        )
+    uploaded_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Дата загрузки документа",
+        )
