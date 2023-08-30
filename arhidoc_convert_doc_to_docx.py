@@ -79,6 +79,27 @@ def rename_docx(in_path: Path, out_path: Path, prefix: str, params) -> int:
         print(error)
         return 0
 
+def validate_data_docx(data_file: tuple[str, str, str], path_doc: Path):
+    """Проверка соответствия выгруженной информации по документу его содержимому"""
+    doc: docx.Document = docx.Document(path_doc)
+    fullText: list[str] = []
+    for table in doc.tables:
+        for cell in table._cells:
+            fullText.append(cell.text)
+    for paragraph in doc.paragraphs:
+        fullText.append(paragraph.text)
+    text_doc = ' '.join(fullText)
+    status: str = ''
+    data, number, name = data_file
+    data = '.'.join(data.split('-')[::-1])
+    number = number[:4].lstrip('0')
+    for pattern in (data, number, name):
+        if pattern in text_doc:
+            status += '1'
+        else:
+            status += '0'
+    return status
+    
 def validate_docx(path_file: Path, prefix: str, level: int = 1) -> None:
     """Валидация содержимого документов их данным согласно выгрузке из"""
     pass
