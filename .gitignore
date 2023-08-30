@@ -3,6 +3,7 @@ BD
 venv
 __pycache__
 db.sqlite3
+docs.db
 DOCS_FOR_DOWNLOAD
 utilites
 D12.json
