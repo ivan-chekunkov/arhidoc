@@ -33,6 +33,7 @@ def convert_doc_to_docx() -> None:
         print('Обрабатываю {} из {}!'.format(index, len_files))
         _convert_doc_to_docx(path_file, Path('output'))
 
+
 def read_csv(path_file: Path) -> dict[int, tuple[str, str, str]]:
     """Создание словаря документов с их параметрами на основе выгрузки из базы"""
     with open(path_file, 'r', encoding='cp1251') as file:
@@ -53,15 +54,6 @@ def read_csv(path_file: Path) -> dict[int, tuple[str, str, str]]:
     return doc_info
 
 
-def save_json(path_file: Path, data):
-    # Нужно ниже сделать аннотации, докстринг и рефокторинг
-    import json
-    path = path_file.name.split('.')[0]
-    with open('{}.json'.format(path), 'w', encoding='utf-8') as outfile:
-        json.dump(obj=data, fp=outfile,
-                  ensure_ascii=False, indent=4,
-                  sort_keys=True, separators=(',', ': '))
-
 def rename_docx(in_path: Path, out_path: Path, prefix: str, params) -> int:
     """Переименование документа согласно шаблону на основе выгрузки из базы"""
     number: str
@@ -78,6 +70,7 @@ def rename_docx(in_path: Path, out_path: Path, prefix: str, params) -> int:
     except Exception as error:
         print(error)
         return 0
+
 
 def validate_data_docx(data_file: tuple[str, str, str], path_doc: Path):
     """Проверка соответствия выгруженной информации по документу его содержимому"""
@@ -99,10 +92,43 @@ def validate_data_docx(data_file: tuple[str, str, str], path_doc: Path):
         else:
             status += '0'
     return status
-    
+
+
+def save_json(path_file: Path, data):
+    # Нужно ниже сделать аннотации, докстринг и рефокторинг
+    import json
+    path = path_file.name.split('.')[0]
+    with open('{}.json'.format(path), 'w', encoding='utf-8') as outfile:
+        json.dump(obj=data, fp=outfile,
+                  ensure_ascii=False, indent=4,
+                  sort_keys=True, separators=(',', ': '))
+
+
 def validate_docx(path_file: Path, prefix: str, level: int = 1) -> None:
     """Валидация содержимого документов их данным согласно выгрузке из"""
-    pass
+    data = read_csv(path_file)
+    save_json(path_file, data)
+    # files = _iterdir(Path('to_validate'))
+    # for file in files:
+    #     index = int(file.name.split('.docx')[0].lstrip('t'))
+    #     res = data.get(index, 'not')
+    #     if res == 'not':
+    #         print(index)
+    #     elif type(res) == tuple:
+    #         status = validate_data_docx(res, file)
+    #         if (int(status[0]) + int(status[1]) + int(status[2])) >= level:
+    #             if rename_docx(file, Path('output'), prefix, res):
+    #                 del data[index]
+    #         else:
+    #             print('File {} {}'.format(index, status))
+    #             print(res)
+    # if data:
+    #     answear = input('Остались документы в списке, показать? ')
+    #     if answear.upper() in ('1', 'ДА', 'YES'):
+    #         for key, val in data.items():
+    #             print('{} - {}'.format(key, val))
+    # else:
+    #     print('Список документов пуст!')
 
 
 if __name__ == '__main__':
