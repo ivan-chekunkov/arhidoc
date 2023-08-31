@@ -11,14 +11,38 @@ from .forms import DocumentForm
 
 def index(request):
     documents = Doc.objects.order_by("-pub_create")
-    paginator = Paginator(documents, 25)
+    paginator = Paginator(documents, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(request, "docbase/list.html", {"page_obj": page_obj})
 
-def category(request):
+
+def all_category(request):
     category = Category.objects.all()
     return render(request, "docbase/category.html", {"page_obj": category})
+
+
+def docs_category(request, pk):
+    documents = Doc.objects.filter(category=pk)
+    paginator = Paginator(documents, 5)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return render(request, "docbase/list.html", {"page_obj": page_obj})
+
+
+def create_docs(request, pk):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('docbase:main')
+    else:
+        form = DocumentForm()
+        form.cat = pk
+    return render(request, 'core/model_form_upload.html', {
+        'form': form
+    })
+
 
 def model_form_upload(request):
     if request.method == 'POST':
@@ -44,4 +68,3 @@ def download(request, path):
                 os.path.basename(file_path)
             return response
     raise Http404
-

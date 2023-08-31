@@ -69,15 +69,23 @@ class Doc(models.Model):
 
 class Document(models.Model):
     description = models.CharField(
-        max_length=255, 
-        blank=True, 
+        max_length=255,
+        blank=True,
         verbose_name="Описание документа",
-        )
+        help_text="Введите наименование документа",
+    )
     document = models.FileField(
-        upload_to='documents/', 
+        upload_to='documents/',
         verbose_name="Путь до документа",
-        )
+        help_text="Укажите путь до файла документа",
+    )
+    cat = models.ForeignKey(
+        to=Category,
+        on_delete=models.CASCADE,
+        verbose_name="Категория",
+        related_name="document",
+    )
     uploaded_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name="Дата загрузки документа",
-        )
+    )
