@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %} {% for char in page_obj %} {% if forloop.first %}
-<p style="padding-top: 10px; font-size: 35px">Документы</p>
+<p style="padding-top: 10px; font-size: 35px">Документы. Всего {{ count }}</p>
 <table class="table table-sm table-striped table-hover table-bordered border-primary">
   <thead>
     <tr>
@@ -15,7 +15,7 @@
     {% endif %}
     <tr>
       <td>{{ char.id }}</td>
-      <td><b>{{ char.name }}</b></td>
+      <td style="width: 30%"><b>{{ char.name }}</b></td>
       <td style="white-space: nowrap">{{ char.data_doc|date:'Y-m-d' }}</td>
       <td>{{ char.number }}</td>
       <td>{{ char.category }}</td>
@@ -30,13 +30,21 @@
 <div class="pagination">
   <span class="step-links">
     {% if page_obj.has_previous %}
-    <a href="?page=1">&laquo; first</a>
-    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    <a href="?page=1" class="btn rounded-pill" style="background-color: #a370f7">&laquo;</a>
+    <a href="?page={{ page_obj.previous_page_number }}" class="btn rounded-pill" style="background-color: #a370f7"
+      >Назад</a
+    >
     {% endif %}
-    <span class="current"> Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}. </span>
+    <span class="btn rounded-pill" style="background-color: #a370f7">
+      Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+    </span>
     {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">next</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    <a href="?page={{ page_obj.next_page_number }}" class="btn rounded-pill" style="background-color: #a370f7"
+      >Вперед</a
+    >
+    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn rounded-pill" style="background-color: #a370f7"
+      >&raquo;</a
+    >
     {% endif %}
   </span>
 </div>

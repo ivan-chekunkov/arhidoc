@@ -11,10 +11,11 @@ from .forms import DocumentForm
 
 def index(request):
     documents = Doc.objects.order_by("-pub_create")
+    count = documents.count()
     paginator = Paginator(documents, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "docbase/list.html", {"page_obj": page_obj})
+    return render(request, "docbase/list.html", {"page_obj": page_obj, "count": count})
 
 
 def all_category(request):
@@ -23,11 +24,12 @@ def all_category(request):
 
 
 def docs_category(request, pk):
-    documents = Doc.objects.filter(category=pk)
+    documents = Doc.objects.filter(category=pk).order_by('-pub_create')
+    count = documents.count()
     paginator = Paginator(documents, 5)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
-    return render(request, "docbase/list.html", {"page_obj": page_obj})
+    return render(request, "docbase/list.html", {"page_obj": page_obj, "count": count})
 
 
 def create_docs(request, pk):
@@ -38,9 +40,11 @@ def create_docs(request, pk):
             return redirect('docbase:main')
     else:
         form = DocumentForm()
-        form.cat = pk
+        counter = Category.objects.filter(id=pk).first().counter
+        name = Category.objects.filter(id=pk).first().name
+        number = '{}-{}'.format(name, counter)
     return render(request, 'core/model_form_upload.html', {
-        'form': form
+        'form': form, 'number': number
     })
 
 

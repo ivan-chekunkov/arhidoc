@@ -1,14 +1,26 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container" style="padding-top: 26px">
-  <p>{{ form.cat }}</p>
+  <p>{{ number }}</p>
   <form method="post" enctype="multipart/form-data">
-    {% csrf_token %} {% for field in form %}
+    {% csrf_token %}
+    <table class="table table-sm table-striped table-hover table-bordered border-primary">
+      <tbody>
+        {% for field in form %}
+        <tr>
+          <td style="width: 20%"><b>{{ field.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ field }}</b></td>
+          {% if field.help_text %}
+          <td style="width: 65%"><b>{{ field.help_text|safe }}</b></td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
     <div class="fieldWrapper">
-      {{ field.errors }} {{ field.label_tag }} {{ field }} {% if field.help_text %}
-      <p class="help">{{ field.help_text|safe }}</p>
-      {% endif %}
+      <p class="help"></p>
     </div>
-    {% endfor %}
+
     <button type="submit" class="btn rounded-pill" style="background-color: #a370f7">Upload</button>
   </form>
 </div>
