@@ -75,7 +75,7 @@ class Document(models.Model):
         help_text="Введите наименование документа",
     )
     document = models.FileField(
-        upload_to='documents/',
+        upload_to="documents/",
         verbose_name="Путь до документа",
         help_text="Укажите путь до файла документа",
     )

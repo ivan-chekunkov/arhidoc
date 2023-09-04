@@ -3,6 +3,11 @@ from .models import Document
 
 
 class DocumentForm(forms.ModelForm):
+    number = forms.CharField()
+
     class Meta:
         model = Document
-        fields = ('description', 'cat', 'document',)
+        fields = (
+            "description",
+            "document",
+        )
