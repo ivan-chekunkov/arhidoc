@@ -3,7 +3,9 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = "django-insecure-c0)uhgpfs49p-#g$kf%_^2z7$pn)2%jmp!-#%p8ynhsp(jlhox"
+SECRET_KEY = (
+    "django-insecure-c0)uhgpfs49p-#g$kf%_^2z7$pn)2%jmp!-#%p8ynhsp(jlhox"
+)
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
@@ -46,7 +48,7 @@ WSGI_APPLICATION = "arhidoc.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": str(BASE_DIR / 'db.sqlite3'),
+        "NAME": str(BASE_DIR / "db.sqlite3"),
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -63,8 +65,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
