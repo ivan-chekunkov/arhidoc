@@ -1,10 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container" style="padding-top: 26px">
-  <p>{{ number }}</p>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <table class="table table-sm table-striped table-hover table-bordered border-primary">
       <tbody>
+        <tr>
+          <b>Создание документа номер {{ number }}</b>
+        </tr>
         {% for field in form %}
         <tr>
           <td style="width: 20%"><b>{{ field.label_tag }}</b></td>

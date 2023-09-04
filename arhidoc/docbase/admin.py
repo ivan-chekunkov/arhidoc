@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Doc, Document
+from .models import Category, Doc
 
 
 class DocAdmin(admin.ModelAdmin):
@@ -10,32 +10,24 @@ class DocAdmin(admin.ModelAdmin):
         "number",
         "category",
         "file_path",
-        "pub_create",
+        "date_created",
+        "file_doc",
     )
     search_fields = ("name",)
-    list_filter = ("pub_create",)
+    list_filter = ("date_created",)
     empty_value_display = "-пусто-"
 
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "pub_create",
+        "date_created",
         "counter",
     )
     search_fields = ("name",)
-    list_filter = ("pub_create",)
+    list_filter = ("date_created",)
     empty_value_display = "-пусто-"
 
 
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = (
-        "description",
-        "document",
-        "uploaded_at",
-    )
-
-
-admin.site.register(Document, DocumentAdmin)
 admin.site.register(Doc, DocAdmin)
 admin.site.register(Category, CategoryAdmin)

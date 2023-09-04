@@ -1,13 +1,14 @@
 from django import forms
-from .models import Document
+from .models import Doc
 
 
-class DocumentForm(forms.ModelForm):
-    number = forms.CharField()
-
+class DocForm(forms.ModelForm):
     class Meta:
-        model = Document
+        model = Doc
         fields = (
-            "description",
-            "document",
+            "name",
+            "number",
+            "data_doc",
+            "file_doc",
+            "category",
         )

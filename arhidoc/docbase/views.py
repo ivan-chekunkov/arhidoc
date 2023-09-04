@@ -4,13 +4,13 @@ from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 
 from .models import Doc, Category
-from .forms import DocumentForm
+from .forms import DocForm
 
 
 def index(request):
-    documents = Doc.objects.order_by("-pub_create")
+    documents = Doc.objects.order_by("-date_created")
     count = documents.count()
-    paginator = Paginator(documents, 5)
+    paginator = Paginator(documents, 15)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(
@@ -24,9 +24,9 @@ def all_category(request):
 
 
 def docs_category(request, pk):
-    documents = Doc.objects.filter(category=pk).order_by("-pub_create")
+    documents = Doc.objects.filter(category=pk).order_by("-date_created")
     count = documents.count()
-    paginator = Paginator(documents, 5)
+    paginator = Paginator(documents, 15)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
     return render(
@@ -34,9 +34,15 @@ def docs_category(request, pk):
     )
 
 
+from django.forms.models import ModelChoiceField
+
+
 def create_docs(request, pk):
     if request.method == "POST":
-        form = DocumentForm(request.POST, request.FILES)
+        form = DocForm(request.POST, request.FILES)
+        a: ModelChoiceField = form.fields["category"]
+        print(a.ge)
+        form.fields["category"].initial = "Л"
         if form.is_valid():
             form.save()
             return redirect("docbase:main")
@@ -44,9 +50,8 @@ def create_docs(request, pk):
         counter = Category.objects.filter(id=pk).first().counter
         name = Category.objects.filter(id=pk).first().name
         number = "{}-{}".format(name, counter)
-        doc = Doc.objects.first()
-        doc.number = number
-        form = DocumentForm(number=number)
+        form = DocForm()
+
     return render(
         request,
         "core/model_form_upload.html",
@@ -56,12 +61,12 @@ def create_docs(request, pk):
 
 def model_form_upload(request):
     if request.method == "POST":
-        form = DocumentForm(request.POST, request.FILES)
+        form = DocForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect("docbase:main")
     else:
-        form = DocumentForm()
+        form = DocForm()
     return render(request, "core/model_form_upload.html", {"form": form})
 
 

@@ -7,7 +7,7 @@ class Category(models.Model):
         verbose_name="Наименование категории",
         help_text="Введите наименование категории",
     )
-    pub_create = models.DateTimeField(
+    date_created = models.DateTimeField(
         verbose_name="Дата создания категории",
         auto_now_add=True,
     )
@@ -20,19 +20,20 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
-        ordering = ["-pub_create"]
+        ordering = ["-date_created"]
 
     def __str__(self):
         return self.name
 
 
 class Doc(models.Model):
-    pub_create = models.DateTimeField(
+    date_created = models.DateTimeField(
         verbose_name="Дата создания документа",
         auto_now_add=True,
     )
     data_doc = models.DateTimeField(
         verbose_name="Дата документа",
+        help_text="Введите дату документа",
         null=True,
     )
     name = models.CharField(
@@ -49,7 +50,7 @@ class Doc(models.Model):
         to=Category,
         on_delete=models.CASCADE,
         verbose_name="Категория",
-        related_name="doc",
+        related_name="docs",
     )
     file_path = models.CharField(
         max_length=200,
@@ -57,35 +58,16 @@ class Doc(models.Model):
         help_text="Укажите путь до файла документа",
         null=True,
     )
-
-    class Meta:
-        verbose_name = "Документ"
-        verbose_name_plural = "Документы"
-        ordering = ["-pub_create"]
-
-    def __str__(self):
-        return self.name[:10]
-
-
-class Document(models.Model):
-    description = models.CharField(
-        max_length=255,
-        blank=True,
-        verbose_name="Описание документа",
-        help_text="Введите наименование документа",
-    )
-    document = models.FileField(
+    file_doc = models.FileField(
         upload_to="documents/",
         verbose_name="Путь до документа",
         help_text="Укажите путь до файла документа",
     )
-    cat = models.ForeignKey(
-        to=Category,
-        on_delete=models.CASCADE,
-        verbose_name="Категория",
-        related_name="document",
-    )
-    uploaded_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Дата загрузки документа",
-    )
+
+    class Meta:
+        verbose_name = "Документ"
+        verbose_name_plural = "Документы"
+        ordering = ["-date_created"]
+
+    def __str__(self):
+        return self.name[:10]
