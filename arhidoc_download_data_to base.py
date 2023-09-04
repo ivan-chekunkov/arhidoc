@@ -1,17 +1,22 @@
+from typing import Generator
 import sqlite3
+from datetime import datetime
 from pathlib import Path
+import json
 
-
-conn = sqlite3.connect('arhidoc\\db.sqlite3')
+conn = sqlite3.connect("arhidoc\\db.sqlite3")
 cur = conn.cursor()
 
 
 def create_db():
-    cur.execute("""CREATE TABLE IF NOT EXISTS cat(
+    cur.execute(
+        """CREATE TABLE IF NOT EXISTS cat(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT);
-    """)
-    cur.execute("""CREATE TABLE IF NOT EXISTS docs(
+    """
+    )
+    cur.execute(
+        """CREATE TABLE IF NOT EXISTS docs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     date datetime,
     name TEXT,
@@ -20,8 +25,10 @@ def create_db():
     file_path TEXT,
     cat_id INTEGER,
     FOREIGN KEY (cat_id) REFERENCES cat(id));
-    """)
+    """
+    )
     conn.commit()
+
 
 def _iterdir(path: Path) -> list[Path]:
     """Получение списка файлов"""
@@ -29,7 +36,8 @@ def _iterdir(path: Path) -> list[Path]:
 
 
 def get_base_dir():
-    return Path(__file__).parent.joinpath('DOCS_FOR_DOWNLOAD')
+    return Path(__file__).parent.joinpath("DOCS_FOR_DOWNLOAD")
+
 
 def check_db():
     sqlite_insert_with_param = """SELECT dd.* 
@@ -37,6 +45,22 @@ def check_db():
     cur.execute(sqlite_insert_with_param)
     conn.commit()
 
-if __name__ == '__main__':
+
+def get_data(files: list[Path]) -> Generator:
+    with open("D12.json", "r", encoding="utf-8") as json_file:
+        D12 = json.load(json_file)
+    with open("D13.json", "r", encoding="utf-8") as json_file:
+        D13 = json.load(json_file)
+    json_data = {"Л": D12, "К": D13}
+    for file in files:
+        cat = file.name.split("=")[0]
+        index = file.name.split("=")[1][1:].lstrip("0")
+        data = json_data[cat][index]
+        data_doc = str(datetime.strptime(data[0], "%Y-%m-%d"))
+        cat_num = {"Л": 1, "К": 2}[cat]
+        yield (data[2], data[1], data_doc, cat_num, data_doc, str(file))
+
+
+if __name__ == "__main__":
     create_db()
     check_db()
