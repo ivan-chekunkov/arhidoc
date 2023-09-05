@@ -51,15 +51,13 @@ def get_data(files: list[Path]) -> Generator:
         data = json_data[cat][index]
         data_doc = str(datetime.strptime(data[0], "%Y-%m-%d"))
         cat_num = {"Л": 1, "К": 2}[cat]
-        media_root = Path(r"documents")
-        name = media_root.joinpath(file.name)
         yield (
             data[2],
             data[1],
             data_doc,
             cat_num,
             data_doc,
-            str(name),
+            str(file.name),
         )
 
 
