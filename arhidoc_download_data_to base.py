@@ -71,7 +71,7 @@ def add_line(data_tuple):
 
 
 def check_db():
-    sqlite_insert_with_param = """SELECT dd.* 
+    sqlite_insert_with_param = """SELECT dd.*
                                 FROM docbase_doc dd """
     cur.execute(sqlite_insert_with_param)
     conn.commit()

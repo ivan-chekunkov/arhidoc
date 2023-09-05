@@ -53,7 +53,7 @@ class Doc(models.Model):
         related_name="docs",
     )
     file_doc = models.FileField(
-        upload_to="documents/",
+        upload_to="",
         verbose_name="Путь до файла документа",
         help_text="Укажите путь до файла документа",
     )
