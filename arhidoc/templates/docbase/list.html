@@ -44,6 +44,7 @@
       <td style="width: 5%">
         <a
           href="{% url 'docbase:load' char.file_doc %}"
+          download
           class="btn rounded-pill"
           style="background-color: #a370f7"
           role="button"
@@ -55,5 +56,5 @@
   </tbody>
 </table>
 {% endif %} {% empty %}
-<p>Если цикл пуст</p>
+<p style="padding-top: 30px; font-size: 35px"><b>НЕТ ДАННЫХ</b></p>
 {% endfor %} {% endblock %}

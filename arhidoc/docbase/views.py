@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 from django.conf import settings
 
 from .models import Doc, Category
-from .forms import DocForm
+from .forms import DocForm, SearcheForm
 
 
 def index(request):
@@ -51,10 +51,26 @@ def download(request, path):
 
 
 def searche(request):
-    pass
-
-
-from django.forms.models import ModelChoiceField
+    if request.method == "POST":
+        form = DocForm(request.POST, request.FILES)
+        validate_data = form.data
+        name = validate_data["name"].strip()
+        number = validate_data["number"].strip().upper()
+        data_doc = validate_data["data_doc"].strip()
+        page_obj = (
+            Doc.objects.filter(data_doc__contains=data_doc)
+            .filter(name__contains=name)
+            .filter(number__contains=number)
+        )
+        count = page_obj.count
+        return render(
+            request,
+            "docbase/list.html",
+            {"page_obj": page_obj, "count": count},
+        )
+    else:
+        form = SearcheForm()
+    return render(request, "core/searche.html", {"form": form})
 
 
 def create_docs(request, pk):
