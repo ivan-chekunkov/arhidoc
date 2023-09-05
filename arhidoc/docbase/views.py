@@ -50,10 +50,15 @@ def download(request, path):
     raise Http404
 
 
+def searche(request):
+    pass
+
+
 from django.forms.models import ModelChoiceField
 
 
 def create_docs(request, pk):
+    error = False
     if request.method == "POST":
         form = DocForm(request.POST, request.FILES)
         if form.is_valid():
@@ -61,6 +66,8 @@ def create_docs(request, pk):
             counter = Category.objects.filter(id=pk).first().counter + 1
             Category.objects.filter(id=pk).update(counter=counter)
             return redirect("docbase:main")
+        else:
+            error = True
     else:
         counter = Category.objects.filter(id=pk).first().counter
         name = Category.objects.filter(id=pk).first().name
@@ -69,11 +76,13 @@ def create_docs(request, pk):
         number = "{}-{}".format(counter, name)
         form = DocForm()
         form.fields["number"].initial = number
-        form.fields["category"].initial = name
+        form.fields["category"].initial = Category.objects.filter(
+            id=pk
+        ).first()
     return render(
         request,
         "core/model_form_upload.html",
-        {"form": form, "name": name},
+        {"form": form, "error": error},
     )
 
 
