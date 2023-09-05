@@ -52,15 +52,9 @@ class Doc(models.Model):
         verbose_name="Категория",
         related_name="docs",
     )
-    file_path = models.CharField(
-        max_length=200,
-        verbose_name="Путь до файла документа",
-        help_text="Укажите путь до файла документа",
-        null=True,
-    )
     file_doc = models.FileField(
         upload_to="documents/",
-        verbose_name="Путь до документа",
+        verbose_name="Путь до файла документа",
         help_text="Укажите путь до файла документа",
     )
 

@@ -9,7 +9,6 @@ class DocAdmin(admin.ModelAdmin):
         "name",
         "number",
         "category",
-        "file_path",
         "date_created",
         "file_doc",
     )

@@ -51,12 +51,21 @@ def get_data(files: list[Path]) -> Generator:
         data = json_data[cat][index]
         data_doc = str(datetime.strptime(data[0], "%Y-%m-%d"))
         cat_num = {"Л": 1, "К": 2}[cat]
-        yield (data[2], data[1], data_doc, cat_num, data_doc, str(file))
+        media_root = Path(r"documents")
+        name = media_root.joinpath(file.name)
+        yield (
+            data[2],
+            data[1],
+            data_doc,
+            cat_num,
+            data_doc,
+            str(name),
+        )
 
 
 def add_line(data_tuple):
     sqlite_insert_with_param = """INSERT INTO 'docbase_doc'
-                          ('name', 'number', 'pub_create', 'category_id', 'data_doc', 'file_path')
+                          ('name', 'number', 'date_created', 'category_id', 'data_doc', 'file_doc')
                           VALUES (?, ?, ?, ?, ?, ?);"""
 
     cur.execute(sqlite_insert_with_param, data_tuple)
@@ -70,8 +79,20 @@ def check_db():
     conn.commit()
 
 
+def add_category():
+    sqlite_insert_with_param = """INSERT INTO 'docbase_category'
+                          ('name', 'date_created', 'counter')
+                          VALUES (?, ?, ?);"""
+    data_doc = str(datetime.now().date())
+    for category in ("Л", "К"):
+        data_tuple = (category, data_doc, 1)
+        cur.execute(sqlite_insert_with_param, data_tuple)
+    conn.commit()
+
+
 if __name__ == "__main__":
     # create_db()
+    # add_category()
     files = _iterdir(get_base_dir())
 
     for data_tuple in get_data(files):

@@ -30,18 +30,26 @@
       <th scope="col">Дата</th>
       <th scope="col">Номер</th>
       <th scope="col">Категория</th>
-      <th scope="col">Путь к файлу</th>
+      <th scope="col">Скачать</th>
     </tr>
   </thead>
   <tbody>
     {% endif %}
     <tr>
-      <td>{{ char.id }}</td>
-      <td style="width: 35%"><b>{{ char.name }}</b></td>
+      <td style="width: 5%">{{ char.id }}</td>
+      <td style="width: 75%"><b>{{ char.name }}</b></td>
       <td style="white-space: nowrap">{{ char.data_doc|date:'Y-m-d' }}</td>
       <td style="width: 5%">{{ char.number }}</td>
       <td style="width: 5%">{{ char.category }}</td>
-      <td style="width: 30%">{{ char.file_path|slice:":25" }}...</td>
+      <td style="width: 5%">
+        <a
+          href="{% url 'docbase:load' char.file_doc %}"
+          class="btn rounded-pill"
+          style="background-color: #a370f7"
+          role="button"
+          >LOAD</a
+        >
+      </td>
     </tr>
     {% if forloop.last %}
   </tbody>

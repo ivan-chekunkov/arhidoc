@@ -5,17 +5,32 @@
     <table class="table table-sm table-striped table-hover table-bordered border-primary">
       <tbody>
         <tr>
-          <b>Создание документа номер {{ number }}</b>
+          <td style="width: 20%"><b>{{ form.name.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ form.name }}</b></td>
+          <td style="width: 65%"><b>{{ form.name.help_text|safe }}</b></td>
         </tr>
-        {% for field in form %}
         <tr>
-          <td style="width: 20%"><b>{{ field.label_tag }}</b></td>
-          <td style="width: 15%"><b>{{ field }}</b></td>
-          {% if field.help_text %}
-          <td style="width: 65%"><b>{{ field.help_text|safe }}</b></td>
-          {% endif %}
+          <td style="width: 20%"><b>{{ form.number.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ form.number }}</b></td>
+          <td style="width: 65%">
+            <b>{{ form.number.help_text|safe }} <span style="color: red">{{ number }}</span></b>
+          </td>
         </tr>
-        {% endfor %}
+        <tr>
+          <td style="width: 20%"><b>{{ form.data_doc.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ form.data_doc }}</b></td>
+          <td style="width: 65%"><b>{{ form.data_doc.help_text|safe }} в формате YYYY-MM-DD</b></td>
+        </tr>
+        <tr>
+          <td style="width: 20%"><b>{{ form.file_doc.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ form.file_doc }}</b></td>
+          <td style="width: 65%"><b>{{ form.file_doc.help_text|safe }}</b></td>
+        </tr>
+        <tr>
+          <td style="width: 20%"><b>{{ form.category.label_tag }}</b></td>
+          <td style="width: 15%"><b>{{ form.category }}</b></td>
+          <td style="width: 65%"><b>{{ form.category.help_text|safe }}</b></td>
+        </tr>
       </tbody>
     </table>
 

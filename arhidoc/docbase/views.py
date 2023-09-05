@@ -2,6 +2,7 @@ import os
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
+from django.conf import settings
 
 from .models import Doc, Category
 from .forms import DocForm
@@ -34,6 +35,21 @@ def docs_category(request, pk):
     )
 
 
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, "rb") as fh:
+            response = HttpResponse(
+                fh.read(),
+                content_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            )
+            response[
+                "Content-Disposition"
+            ] = "inline; filename=" + os.path.basename(file_path)
+            return response
+    raise Http404
+
+
 from django.forms.models import ModelChoiceField
 
 
@@ -41,7 +57,6 @@ def create_docs(request, pk):
     if request.method == "POST":
         form = DocForm(request.POST, request.FILES)
         a: ModelChoiceField = form.fields["category"]
-        print(a.ge)
         form.fields["category"].initial = "Л"
         if form.is_valid():
             form.save()
@@ -49,7 +64,9 @@ def create_docs(request, pk):
     else:
         counter = Category.objects.filter(id=pk).first().counter
         name = Category.objects.filter(id=pk).first().name
-        number = "{}-{}".format(name, counter)
+        if counter < 10:
+            counter = "0" + str(counter)
+        number = "{}-{}".format(counter, name)
         form = DocForm()
 
     return render(
@@ -68,17 +85,3 @@ def model_form_upload(request):
     else:
         form = DocForm()
     return render(request, "core/model_form_upload.html", {"form": form})
-
-
-def download(request, path):
-    file_path = os.path.join("", path)
-    if os.path.exists(file_path):
-        with open(file_path, "rb") as fh:
-            response = HttpResponse(
-                fh.read(), content_type="application/vnd.ms-excel"
-            )
-            response[
-                "Content-Disposition"
-            ] = "inline; filename=" + os.path.basename(file_path)
-            return response
-    raise Http404
