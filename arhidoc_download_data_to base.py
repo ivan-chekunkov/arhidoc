@@ -39,13 +39,6 @@ def get_base_dir():
     return Path(__file__).parent.joinpath("DOCS_FOR_DOWNLOAD")
 
 
-def check_db():
-    sqlite_insert_with_param = """SELECT dd.* 
-                                FROM docbase_doc dd """
-    cur.execute(sqlite_insert_with_param)
-    conn.commit()
-
-
 def get_data(files: list[Path]) -> Generator:
     with open("D12.json", "r", encoding="utf-8") as json_file:
         D12 = json.load(json_file)
@@ -61,6 +54,27 @@ def get_data(files: list[Path]) -> Generator:
         yield (data[2], data[1], data_doc, cat_num, data_doc, str(file))
 
 
+def add_line(data_tuple):
+    sqlite_insert_with_param = """INSERT INTO 'docbase_doc'
+                          ('name', 'number', 'pub_create', 'category_id', 'data_doc', 'file_path')
+                          VALUES (?, ?, ?, ?, ?, ?);"""
+
+    cur.execute(sqlite_insert_with_param, data_tuple)
+    conn.commit()
+
+
+def check_db():
+    sqlite_insert_with_param = """SELECT dd.* 
+                                FROM docbase_doc dd """
+    cur.execute(sqlite_insert_with_param)
+    conn.commit()
+
+
 if __name__ == "__main__":
-    create_db()
-    check_db()
+    # create_db()
+    files = _iterdir(get_base_dir())
+
+    for data_tuple in get_data(files):
+        add_line(data_tuple)
+
+    # check_db()
