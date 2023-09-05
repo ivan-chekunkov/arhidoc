@@ -56,10 +56,10 @@ from django.forms.models import ModelChoiceField
 def create_docs(request, pk):
     if request.method == "POST":
         form = DocForm(request.POST, request.FILES)
-        a: ModelChoiceField = form.fields["category"]
-        form.fields["category"].initial = "Л"
         if form.is_valid():
             form.save()
+            counter = Category.objects.filter(id=pk).first().counter + 1
+            Category.objects.filter(id=pk).update(counter=counter)
             return redirect("docbase:main")
     else:
         counter = Category.objects.filter(id=pk).first().counter
@@ -68,11 +68,12 @@ def create_docs(request, pk):
             counter = "0" + str(counter)
         number = "{}-{}".format(counter, name)
         form = DocForm()
-
+        form.fields["number"].initial = number
+        form.fields["category"].initial = name
     return render(
         request,
         "core/model_form_upload.html",
-        {"form": form, "number": number},
+        {"form": form, "name": name},
     )
 
 
